@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Alocacao Encadeada</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>Simulador de Alocacao Encadeada</h1>
+    <p>Setor de 4 bytes (ultimo byte reservado para ponteiro). Use o formulario para adicionar e remover arquivos.</p>
+  </header>
+
+  <main class="app">
+    <section class="controls">
+      <h2>Adicionar arquivo</h2>
+      <form id="file-form" autocomplete="off">
+        <div class="field">
+          <label for="file-name">Nome do arquivo</label>
+          <input id="file-name" name="file-name" type="text" placeholder="ex.: curriculo.docx" required>
+        </div>
+        <div class="field">
+          <label for="file-content">Conteudo (texto)</label>
+          <textarea id="file-content" name="file-content" rows="4" placeholder="Digite os dados do arquivo" required></textarea>
+        </div>
+        <div class="field compact">
+          <label for="preferred-sector">Setor inicial preferido (opcional)</label>
+          <input id="preferred-sector" name="preferred-sector" type="number" min="1" step="1" placeholder="ex.: 5">
+        </div>
+        <div class="actions">
+          <button type="submit" class="primary">Adicionar</button>
+          <button type="button" id="reset-disk" class="ghost">Limpar disco</button>
+        </div>
+      </form>
+      <div id="feedback" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="metadata">
+      <h2>Tabela de arquivos</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Arquivo</th>
+            <th>Tamanho (bytes)</th>
+            <th>Setor inicial</th>
+            <th>Setores usados</th>
+            <th>Acoes</th>
+          </tr>
+        </thead>
+        <tbody id="file-table-body">
+          <tr class="empty">
+            <td colspan="5">Nenhum arquivo adicionado ainda.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="disk">
+      <div class="disk-header">
+        <h2>Disco</h2>
+        <div class="disk-info">
+          <span id="disk-capacity"></span>
+          <span id="disk-usage"></span>
+        </div>
+      </div>
+      <p class="free-list">Setores livres: <span id="disk-free-ranges">-</span></p>
+      <div id="disk-grid" class="disk-grid" aria-live="polite"></div>
+      <p class="legend">&amp; = fim de arquivo - ultimo byte colorido indica o ponteiro para o proximo setor.</p>
+    </section>
+  </main>
+
+  <template id="sector-template">
+    <article class="sector">
+      <header class="sector-header">
+        <span class="sector-label">Setor <span data-sector></span></span>
+        <span class="sector-owner" data-owner></span>
+      </header>
+      <div class="bytes" data-bytes></div>
+    </article>
+  </template>
+
+  <script src="app.js" defer></script>
+  <footer class="app-footer">
+    <p>Aplicação desenvolvida com fins didáticos, destinada ao estudo da Alocação Encadeada.</p>
+    <p>Os “Setores usados” são exibidos apenas para fins ilustrativos.</p>
+    <p>Autor: Marcos Ricardo Kich.</p>
+  </footer>
+</body>
+</html>
